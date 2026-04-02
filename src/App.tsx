@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Dashboard from "./components/dashboard";
 import Footer from "./components/footer";
 
@@ -6,10 +6,28 @@ type Props = {
   onFileSelect?: (file: File) => void;
 };
 
+export async function health() {
+  try {
+    const response = await fetch("https://whatsappwrappedbackend.onrender.com/health");
+    const data = await response.json();
+    if (response.ok) {
+      console.log(data);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
 const FileUploader: React.FC<Props> = ({ onFileSelect }) => {
+
+
+
+  useEffect(() => {
+    health();
+  }, []);
   const [file, setFile] = useState<File | null>(null);
   const [dragging, setDragging] = useState(false);
   const [currentStatus, setCurrentStatus] = useState<"upload" | "report">("upload");
+  const [loading, setLoading] = useState<boolean>(false);
   const [analysis, setAnalysis] = useState<any>(null);
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
@@ -38,6 +56,7 @@ const FileUploader: React.FC<Props> = ({ onFileSelect }) => {
   };
 
   async function fetchAnalysis() {
+    setLoading(true);
     if (!file) return;
     const formData = new FormData();
     formData.append("file", file);
@@ -50,14 +69,15 @@ const FileUploader: React.FC<Props> = ({ onFileSelect }) => {
       if (response.ok) setCurrentStatus("report");
       setAnalysis(data);
       console.log(data);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
   }
 
   return currentStatus === "upload" ? (
-    <div className="w-full">
-      <div className="flex flex-col items-center justify-center min-h-[90vh] bg-[#301014] p-6 text-[#EDF4ED]">
+    <div className="min-h-screen flex flex-col justify-between">
+      <div className="flex flex-col items-center justify-center grow bg-[#301014] p-6 text-[#EDF4ED]">
         <div className="w-full max-w-lg bg-[#51291E] shadow-xl rounded-2xl p-6">
 
           {/* Title */}
@@ -117,22 +137,22 @@ const FileUploader: React.FC<Props> = ({ onFileSelect }) => {
             ${file
                 ? "bg-[#79B791] text-[#301014] hover:bg-[#79B791]/80"
                 : "bg-[#ABD1B5]/60 text-[#301014]/80 cursor-not-allowed"
-              }`}
+              } ${loading ? "bg-[#79B791]/80 cursor-not-allowed" : "bg-[#79B791] cursor-pointer hover:bg-[#79B791]/80"}`}
+
           >
-            Upload & Analyze
+            {loading ? "Loading..." : "Upload & Analyze"}
           </button>
         </div>
 
       </div>
       <Footer />
     </div>
-
   ) : (
     <>
       <Dashboard analysis={analysis} />
       <Footer />
     </>
-  );
+  )
 };
 
 export default FileUploader;

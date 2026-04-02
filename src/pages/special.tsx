@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Dashboard from '../components/dashboard'
 import Footer from '../components/footer';
 
+
 export default function Special() {
     const [analysis, setanalysis] = useState<any>(null)
 
@@ -29,7 +30,12 @@ export default function Special() {
                 <Footer />
             </div>
         ) : (
-            <h1>loading...</h1>
+            <div className='flex flex-col justify-between min-h-screen'>
+                <div className="flex items-center justify-center grow">
+                    <div className="w-10 h-10 border-4 border-[#ABD1B5] border-t-[#79B791] rounded-full animate-spin"></div>
+                </div>
+                <Footer />
+            </div>
         )
     )
 }
