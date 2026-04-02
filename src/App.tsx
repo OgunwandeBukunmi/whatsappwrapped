@@ -42,7 +42,7 @@ const FileUploader: React.FC<Props> = ({ onFileSelect }) => {
     const formData = new FormData();
     formData.append("file", file);
     try {
-      const response = await fetch("https://whatsappwrappedbackend.onrender.com//analyze", {
+      const response = await fetch("https://whatsappwrappedbackend.onrender.com/analyze", {
         method: "POST",
         body: formData,
       });
