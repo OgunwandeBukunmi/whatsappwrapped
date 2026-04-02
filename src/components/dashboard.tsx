@@ -32,6 +32,8 @@ type Analysis = {
     average_messages_per_day: number;
     longest_streak: number;
     conversation_starters: Record<string, number>;
+    total_length: number;
+    first_message: string;
 };
 
 type Props = {
@@ -76,7 +78,7 @@ const Dashboard: React.FC<Props> = ({ analysis }) => {
 
     return (
         <div className="min-h-screen bg-[#301014] p-6 text-[#EDF4ED]">
-            <div className="max-w-6xl mx-auto space-y-6">
+            <div className="max-w-6xl flex flex-col mx-auto space-y-6">
 
                 {/* Header */}
                 <div className="bg-[#51291E] rounded-2xl shadow-lg p-6 text-center">
@@ -88,8 +90,20 @@ const Dashboard: React.FC<Props> = ({ analysis }) => {
                     </p>
                 </div>
 
+                <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <div className="bg-[#51291E] p-4 rounded-xl shadow">
+                        <h2 className="font-semibold mb-2 text-[#79B791]">First Message</h2>
+                        <p><strong>Datetime:</strong> {new Date(analysis.first_message).toLocaleString()}</p>
+                    </div>
+
+                    <div className="bg-[#51291E] p-4 rounded-xl shadow">
+                        <h2 className="font-semibold mb-2 text-[#79B791]">Total Messages</h2>
+                        <p><strong>Count:</strong> {analysis.total_length}</p>
+                    </div>
+                </div>
+
                 {/* Stats */}
-                <div className="grid md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="bg-[#51291E] p-4 rounded-xl shadow">
                         <p className="text-[#ABD1B5] text-sm">Longest Streak</p>
                         <h2 className="text-xl font-semibold">{analysis.longest_streak} days</h2>

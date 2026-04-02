@@ -82,7 +82,7 @@ const FileUploader: React.FC<Props> = ({ onFileSelect }) => {
 
           {/* Title */}
           <h2 className="text-2xl font-bold text-[#79B791] mb-6 text-center">
-            Upload Chat File
+            Upload Whatsapp Chat File
           </h2>
 
           {/* Drop Area */}
