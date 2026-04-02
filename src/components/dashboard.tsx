@@ -84,7 +84,7 @@ const Dashboard: React.FC<Props> = ({ analysis }) => {
                         {analysis.users[0]} × {analysis.users[1]}
                     </h1>
                     <p className="text-[#ABD1B5] text-sm mt-1">
-                        Chat Analytics Dashboard
+                        Whatsapp Chat Analytics Dashboard
                     </p>
                 </div>
 
