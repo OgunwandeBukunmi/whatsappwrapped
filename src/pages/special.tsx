@@ -8,7 +8,7 @@ export default function Special() {
     useEffect(() => {
         async function fetchAnalysis() {
             try {
-                const response = await fetch("http://localhost:8000/default", {
+                const response = await fetch("https://whatsappwrappedbackend.onrender.com/default", {
                     method: "GET",
                 });
                 const data = await response.json();
