@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #301014;
+  --color-card: #51291E;
+  --color-text: #EDF4ED;
+  --color-heading: #79B791;
+  --color-subheading: #ABD1B5;
+}
+
+body {
+  min-width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
