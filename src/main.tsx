@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
 import Special from './pages/special.tsx';
+import { Analytics } from "@vercel/analytics/react"
 import App from './App.tsx'
 
 const router = createBrowserRouter(createRoutesFromElements(
@@ -16,6 +17,7 @@ const router = createBrowserRouter(createRoutesFromElements(
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
+    <Analytics />
     <RouterProvider router={router} />
   </StrictMode>,
 )
