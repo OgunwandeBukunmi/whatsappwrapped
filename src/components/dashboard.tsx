@@ -93,7 +93,7 @@ const Dashboard: React.FC<Props> = ({ analysis }) => {
                     <div className="flex justify-around items-center bg-[#51291E] rounded-2xl shadow-lg">
                         <div className=" p-6 text-center">
                             <h1 className="text-2xl font-bold text-[#79B791]">
-                                {analysis.users?.[0] ?? "User 1"} ×  <span className="text-xl md:text-3xl font-bold text-heading tracking-wide max-w-[150px] md:max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap inline-block">{analysis.users?.[1] ?? "User 2"}</span>
+                                {analysis.users?.[0] ?? "User 1"} ×  <span className="text-xl md:text-3xl font-bold text-heading tracking-wide max-w-[150px] md:max-w-[250px] overflow-hidden text-ellipsis whitespace-nowrap inline-block">{analysis.users?.[1] ?? "User 2"}</span>
                             </h1>
                             <p className="text-[#ABD1B5] text-sm mt-1">
                                 Whatsapp Chat Analytics Dashboard
