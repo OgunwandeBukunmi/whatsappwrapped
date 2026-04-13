@@ -6,9 +6,10 @@ type Props = {
   onFileSelect?: (file: File) => void;
 };
 
+export const domain = "https://whatsappwrappedbackend.onrender.com"
 export async function health() {
   try {
-    const response = await fetch("https://whatsappwrappedbackend.onrender.com/health");
+    const response = await fetch(`${domain}/health`);
     const data = await response.json();
     if (response.ok) {
       console.log(data);
@@ -61,7 +62,7 @@ const FileUploader: React.FC<Props> = ({ onFileSelect }) => {
     const formData = new FormData();
     formData.append("file", file);
     try {
-      const response = await fetch("https://whatsappwrappedbackend.onrender.com/analyze", {
+      const response = await fetch(`${domain}/analyze`, {
         method: "POST",
         body: formData,
       });

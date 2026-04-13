@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Dashboard from '../components/dashboard'
 import Footer from '../components/footer';
-
+import { domain } from '../App';
 
 export default function Special() {
     const [analysis, setanalysis] = useState<any>(null)
@@ -9,7 +9,7 @@ export default function Special() {
     useEffect(() => {
         async function fetchAnalysis() {
             try {
-                const response = await fetch("https://whatsappwrappedbackend.onrender.com/default", {
+                const response = await fetch(`${domain}/default`, {
                     method: "GET",
                 });
                 const data = await response.json();
