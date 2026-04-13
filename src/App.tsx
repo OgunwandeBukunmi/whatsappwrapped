@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import Dashboard from "./components/dashboard";
 import Footer from "./components/footer";
 
+
 type Props = {
   onFileSelect?: (file: File) => void;
 };
 
-export const domain = "https://whatsapp-chat-report-backend.onrender.com"
+export const domain = "https://whatsappwrappedbackend.onrender.com"
 export async function health() {
   try {
     const response = await fetch(`${domain}/health`);
