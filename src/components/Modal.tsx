@@ -12,7 +12,10 @@ export default function Modal({ setModal, analysis }: { setModal: (modal: Boolea
         try {
             const dataUrl = await toPng(cardRef.current, {
                 cacheBust: true,
-                pixelRatio: 2, // higher quality
+                pixelRatio: 2,
+                style: {
+                    transform: "none",
+                }, // higher quality
             });
 
             const link = document.createElement("a");
@@ -65,11 +68,11 @@ export default function Modal({ setModal, analysis }: { setModal: (modal: Boolea
                                     <span className="flex gap-1 text-sm md:text-xl font-bold text-[#79B791]"> <span className="text-[#ABD1B5] italic">{analysis.message_stats.max_messages}</span> msgs</span>
                                 </div>
                             </div>
-                            <div className="ml-auto shrink-0">
+                            <div className="ml-auto ">
                                 <img
                                     src="/favicon.png"
                                     alt="img"
-                                    className="w-28 h-28 rounded-2xl object-cover shadow-lg"
+                                    className="w-18 h-18 md:w-28 md:h-28 rounded-2xl object-cover shadow-lg"
                                 />
                             </div>
                         </div>
