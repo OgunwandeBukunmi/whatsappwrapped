@@ -72,7 +72,7 @@ export default function Modal({ setModal, analysis }: { setModal: (modal: Boolea
                                 <img
                                     src="/favicon.png"
                                     alt="img"
-                                    className="w-18 h-18 md:w-28 md:h-28 rounded-2xl object-cover shadow-lg"
+                                    className="w-15 h-15 md:w-28 md:h-28 rounded-2xl md:rounded-xl object-cover md:object-fit shadow-lg"
                                 />
                             </div>
                         </div>

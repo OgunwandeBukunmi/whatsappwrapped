@@ -145,7 +145,9 @@ const FileUploader: React.FC<Props> = ({ onFileSelect }) => {
             {loading ? "Loading..." : "Upload & Analyze"}
           </button>
         </div>
-
+        <div className="mt-5 p-4 bg-[#301014]  flex justify-between items-center">
+          <p>Have any issues? <a target="_blank" href="https://wa.me/+2349161276874" className="underline text-heading">Chat me</a></p>
+        </div>
       </div>
       <Footer />
     </div>
