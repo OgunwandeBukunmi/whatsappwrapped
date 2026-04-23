@@ -100,7 +100,7 @@ const FileUploader: React.FC<Props> = ({ onFileSelect }) => {
           >
             <input
               type="file"
-              accept=".txt,.csv"
+              accept=".txt"
               onChange={handleFileChange}
               className="hidden"
               id="fileInput"
