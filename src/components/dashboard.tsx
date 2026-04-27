@@ -31,6 +31,8 @@ export type Analysis = {
         start?: string;
         end?: string;
         duration?: string;
+        type?: string;
+        is_current: boolean;
     } | null;
     average_messages_per_day: number;
     longest_streak: number;
@@ -140,11 +142,12 @@ const Dashboard: React.FC<Props> = ({ analysis }) => {
                             </h2>
                         </div>
 
-                        <div className="bg-[#51291E] p-4 rounded-xl shadow">
+                        <div className=" relative bg-[#51291E] p-4 rounded-xl shadow">
                             <p className="text-[#ABD1B5] text-sm">Longest Silence</p>
                             <h2 className="text-sm font-medium">
                                 {silence?.duration ?? "No data"}
                             </h2>
+                            <span className={`absolute p-2 rounded-lg font-bold top-4 right-2 text-xs ${!silence?.is_current ? "text-green-200 bg-green-800" : "text-red-200 bg-red-800"}`}>{silence?.type}</span>
                         </div>
                     </div>
 
