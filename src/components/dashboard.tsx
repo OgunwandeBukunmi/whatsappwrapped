@@ -3,6 +3,7 @@ import { Bar, Pie, Doughnut } from "react-chartjs-2";
 import { FaUpload } from "react-icons/fa";
 import Modal from "./Modal.tsx";
 
+
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -12,6 +13,7 @@ import {
     Tooltip,
     Legend,
 } from "chart.js";
+import posthog from "posthog-js";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend);
 
@@ -146,7 +148,10 @@ const Dashboard: React.FC<Props> = ({ analysis }) => {
                         </div>
                         <div className="p-2">
                             <button className=" flex items-center bg-[#79B791] text-[#301014] hover:bg-[#79B791]/80 px-4 py-2 rounded-lg font-medium transition"
-                                onClick={() => setModal(true)}>
+                                onClick={() => {
+                                    posthog.capture("dashboard_export_clicked")
+                                    setModal(true)
+                                }}>
                                 <FaUpload className="mr-2 text-[#301014]" /> <span className="mr-2">Export</span>
                             </button>
                         </div>
@@ -363,14 +368,14 @@ const Dashboard: React.FC<Props> = ({ analysis }) => {
                             <h2 className="font-semibold mb-4 text-[#79B791]">
                                 How many times did you not reply each other for over 24 hours?
                             </h2>
-                            <p className="text-4xl font-bold"> <span className="text-[#ABD1B5]">{analysis.ghosting_count ?? 0}</span> times</p>
+                            <p className="text-2xl md:text-4xl font-bold"> <span className="text-[#ABD1B5]">{analysis.ghosting_count ?? 0}</span> times</p>
                         </div>
                         {/* peak hour */}
                         <div className="bg-[#51291E] p-5 rounded-2xl shadow">
                             <h2 className="font-semibold mb-4 text-[#79B791]">
                                 What time do you talk the most?
                             </h2>
-                            <p className="text-4xl font-bold">
+                            <p className="text-2xl md:text-4xl font-bold">
                                 <span className="text-[#ABD1B5]">
                                     {(() => {
                                         const h = analysis.peak_hours ?? 0;
@@ -382,7 +387,7 @@ const Dashboard: React.FC<Props> = ({ analysis }) => {
                             </p>
                         </div>
                         {/* message share */}
-                        <div className="bg-[#51291E] p-5 rounded-2xl shadow">
+                        <div className="bg-[#51291E] text-sm md:text-md p-5 rounded-2xl shadow">
                             <h2 className="font-semibold mb-4 text-[#79B791]">
                                 Who talks the most?
                             </h2>
@@ -390,8 +395,8 @@ const Dashboard: React.FC<Props> = ({ analysis }) => {
                                 const first = Object.entries(analysis.message_share)[0]
                                 return (
                                     <>
-                                        <p className="text-4xl font-bold"> <span className="text-[#ABD1B5]">{first[0]}</span> </p>
-                                        <p className="text-sm"> {first[1]}% messages</p>
+                                        <p className="text-2xl md:text-4xl font-bold"> <span className="text-[#ABD1B5]">{first[0]}</span> </p>
+                                        <p className="text-md md:text-sm"> {first[1]}% messages</p>
                                     </>
                                 )
                             })()}

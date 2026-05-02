@@ -4,6 +4,8 @@ import { toPng } from "html-to-image";
 import { FaTimes } from "react-icons/fa";
 import { Doughnut } from "react-chartjs-2";
 import { FiDownload } from "react-icons/fi";
+import posthog from "posthog-js";
+
 export default function Modal({ setModal, analysis }: { setModal: (modal: Boolean) => void, analysis: Analysis }) {
     const cardRef = useRef<HTMLDivElement>(null);
 
@@ -123,7 +125,10 @@ export default function Modal({ setModal, analysis }: { setModal: (modal: Boolea
                     </div>
                     <div className="flex gap-2 justify-around mt-18">
                         <button
-                            onClick={handleDownload}
+                            onClick={() => {
+                                posthog.capture("dashboard_export_clicked")
+                                handleDownload()
+                            }}
                             className=" flex gap-1 items-center bg-[#51291E]  px-6 py-3  text-white rounded-xl font-semibold hover:bg-[#51291E]/90 transition-colors"
                         >
                             <FiDownload className="text-xl md:text-3xl text-[#79B791]" />
@@ -131,7 +136,10 @@ export default function Modal({ setModal, analysis }: { setModal: (modal: Boolea
                         </button>
                         <a href="https://x.com/waynethefuture"></a>
                         <button
-                            onClick={() => setModal(false)}
+                            onClick={() => {
+                                posthog.capture("dashboard_X_quote_clicked")
+                                setModal(false)
+                            }}
                             className=" flex gap-1 items-center bg-[#51291E]  px-6 py-3  text-white rounded-xl font-semibold hover:bg-[#51291E]/90 transition-colors"
                         >
                             <FaTimes className="text-xl md:text-3xl text-[#79B791]" />

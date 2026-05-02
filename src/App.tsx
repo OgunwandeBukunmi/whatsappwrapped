@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Dashboard from "./components/dashboard";
 import Footer from "./components/footer";
 import { Typewriter } from "react-simple-typewriter";
+import posthog from "posthog-js";
 
 
 type Props = {
@@ -38,6 +39,10 @@ const FileUploader: React.FC<Props> = ({ onFileSelect }) => {
   const [progress, setProgress] = useState<number>(0)
 
   function useProgress(loading: boolean) {
+
+    useEffect(() => {
+      posthog.capture("view", { view: "upload_page" })
+    }, [])
 
     useEffect(() => {
       if (!loading) return;
@@ -84,6 +89,8 @@ const FileUploader: React.FC<Props> = ({ onFileSelect }) => {
   };
 
   async function fetchAnalysis() {
+    posthog.capture("view", { view: "loading_page" })
+    const start = performance.now();
     setLoading(true);
     setCurrentStatus("loading");
     if (!file) return;
@@ -96,10 +103,13 @@ const FileUploader: React.FC<Props> = ({ onFileSelect }) => {
       });
       const data = await response.json();
       if (response.ok) setCurrentStatus("report");
+      const end = performance.now();
+      posthog.capture("report_generated", { load_time: end - start })
       setAnalysis(data);
       console.log(data);
       setLoading(false);
     } catch (error) {
+      posthog.capture("upload_failed", { error: error })
       console.log(error);
       setLoading(false);
     }
