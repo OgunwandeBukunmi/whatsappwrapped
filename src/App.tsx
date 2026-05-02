@@ -7,7 +7,7 @@ type Props = {
   onFileSelect?: (file: File) => void;
 };
 
-export const domain = "http://localhost:8000"
+export const domain = "https://whatsappwrappedbackend.onrender.com"
 export async function health() {
   try {
     const response = await fetch(`${domain}/health`);
