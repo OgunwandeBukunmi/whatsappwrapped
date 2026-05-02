@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Dashboard from "./components/dashboard";
 import Footer from "./components/footer";
+import { Typewriter } from "react-simple-typewriter";
 
 
 type Props = {
@@ -8,6 +9,7 @@ type Props = {
 };
 
 export const domain = "https://whatsappwrappedbackend.onrender.com"
+// export const domain = "http://localhost:8000"
 export async function health() {
   try {
     const response = await fetch(`${domain}/health`);
@@ -23,14 +25,38 @@ const FileUploader: React.FC<Props> = ({ onFileSelect }) => {
 
 
 
+
+
   useEffect(() => {
     health();
   }, []);
   const [file, setFile] = useState<File | null>(null);
   const [dragging, setDragging] = useState(false);
-  const [currentStatus, setCurrentStatus] = useState<"upload" | "report">("upload");
+  const [currentStatus, setCurrentStatus] = useState<"upload" | "loading" | "report">("upload");
   const [loading, setLoading] = useState<boolean>(false);
   const [analysis, setAnalysis] = useState<any>(null);
+  const [progress, setProgress] = useState<number>(0)
+
+  function useProgress(loading: boolean) {
+
+    useEffect(() => {
+      if (!loading) return;
+
+      const interval = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 95) return prev; // stop near end
+          return prev + Math.random() * 5;
+        });
+      }, 300);
+
+      return () => clearInterval(interval);
+    }, [loading]);
+
+    return progress;
+  }
+  useProgress(loading);
+
+
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -59,6 +85,7 @@ const FileUploader: React.FC<Props> = ({ onFileSelect }) => {
 
   async function fetchAnalysis() {
     setLoading(true);
+    setCurrentStatus("loading");
     if (!file) return;
     const formData = new FormData();
     formData.append("file", file);
@@ -74,6 +101,7 @@ const FileUploader: React.FC<Props> = ({ onFileSelect }) => {
       setLoading(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   }
 
@@ -151,6 +179,70 @@ const FileUploader: React.FC<Props> = ({ onFileSelect }) => {
       </div>
       <Footer />
     </div>
+  ) : currentStatus == "loading" ? (
+
+    <div className="w-screen h-screen bg-[#301014] flex items-center justify-center p-4 text-[#EDF4ED]">
+      <div className="max-w-md w-full bg-[#51291E] p-10 rounded-[3rem] shadow-2xl flex flex-col items-center text-center gap-8 border border-[#EDF4ED]/5 animate-pulse-subtle">
+
+        {/* GIF Container */}
+        <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-3xl overflow-hidden shadow-inner border-2 border-[#79B791]/10 bg-[#301014]/50">
+          <img
+            src="https://tenor.com/view/love-romance-romantic-love-you-couples-gif-27417192.gif"
+            alt="Loading animation"
+            className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity"
+          />
+        </div>
+
+        <div className="space-y-3 w-full">
+          <h2 className="text-[10px] uppercase tracking-[0.4em] text-[#79B791] font-bold">
+            Processing Data
+          </h2>
+          <div className="h-10 flex items-center justify-center">
+            <p className="text-base md:text-lg font-medium text-[#ABD1B5] italic">
+              <Typewriter
+                words={[
+                  "Calculating total messages...",
+                  "Analyzing word patterns...",
+                  "Breaking down conversation stats...",
+                  "Calculating relationship score..."
+                ]}
+                loop={true}
+                cursor
+                cursorStyle="|"
+                typeSpeed={50}
+                deleteSpeed={30}
+                delaySpeed={1500}
+              />
+            </p>
+          </div>
+        </div>
+
+        {/* Loading Bar Section */}
+        <div className="w-full space-y-4 pt-4">
+          <div className="flex justify-between items-end px-1">
+            <span className="text-[10px] uppercase tracking-widest text-[#ABD1B5]/50 font-semibold">System Load</span>
+            <span className="text-sm font-black text-[#79B791] tabular-nums">
+              {Math.round(progress)}%
+            </span>
+          </div>
+
+          <div className="w-full bg-[#301014] rounded-full h-4 p-1 border border-[#EDF4ED]/5 shadow-inner">
+            <div
+              className="bg-gradient-to-r from-[#79B791] to-[#ABD1B5] h-full rounded-full transition-all duration-500 ease-out  relative overflow-hidden"
+              style={{ width: `${progress}%` }}
+            >
+              {/* Shine effect */}
+              <div className="absolute inset-0 bg-white/20 skew-x-[-20deg] translate-x-[-100%] animate-[shimmer_2s_infinite]"></div>
+            </div>
+          </div>
+
+          <p className="text-[9px] text-[#ABD1B5]/40 uppercase tracking-tighter">
+            Please keep this tab open for optimal processing
+          </p>
+        </div>
+      </div>
+    </div>
+
   ) : (
     <>
       <Dashboard analysis={analysis} />

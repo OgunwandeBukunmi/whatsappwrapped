@@ -1,4 +1,4 @@
-
+import { FaGithub } from "react-icons/fa6"
 
 export default function Footer() {
     return (
@@ -7,7 +7,7 @@ export default function Footer() {
 
             <div className="flex items-center justify-center">
                 <a href="https://github.com/OgunwandeBukunmi" target="_blank" rel="noopener noreferrer">
-                    <img src="https://img.icons8.com/ios-filled/50/000000/github.png" alt="GitHub" />
+                    <FaGithub className="text-background text-2xl hover:text-subheading" />
                 </a>
             </div>
         </div>
