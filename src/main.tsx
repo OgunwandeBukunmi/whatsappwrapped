@@ -5,8 +5,13 @@ import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } 
 import Special from './pages/special.tsx';
 import { Analytics } from "@vercel/analytics/react"
 import App from './App.tsx'
-import posthog from './lib/posthog.js';
+import posthog from 'posthog-js';
 import { PostHogProvider } from 'posthog-js/react';
+
+posthog.init('phc_xRnMkzDU4qzEYYJ5dk2gqXSfnRnPjjBM3QjeaPMqyDzp', {
+  api_host: 'https://us.i.posthog.com',
+
+})
 
 const router = createBrowserRouter(createRoutesFromElements(
   <>
