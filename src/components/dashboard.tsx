@@ -131,7 +131,7 @@ const Dashboard: React.FC<Props> = ({ analysis }) => {
 
     return (
         <>
-            <div className="min-h-screen bg-[#301014] p-6 text-[#EDF4ED]">
+            <div className="min-h-screen bg-[#301014] p-3 md:p-6 text-[#EDF4ED]">
                 <div className="max-w-6xl flex flex-col mx-auto space-y-6">
 
                     {/* Header */}
