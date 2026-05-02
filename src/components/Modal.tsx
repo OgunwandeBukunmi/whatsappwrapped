@@ -1,7 +1,8 @@
 import type { Analysis } from "./dashboard";
 import { useRef } from "react";
 import { toPng } from "html-to-image";
-import { FaTimes } from "react-icons/fa";   // Font Awesome
+import { FaTimes } from "react-icons/fa";
+import { Doughnut } from "react-chartjs-2";
 import { FiDownload } from "react-icons/fi";
 export default function Modal({ setModal, analysis }: { setModal: (modal: Boolean) => void, analysis: Analysis }) {
     const cardRef = useRef<HTMLDivElement>(null);
@@ -50,32 +51,74 @@ export default function Modal({ setModal, analysis }: { setModal: (modal: Boolea
                         </div>
 
                         {/* bottom part with image */}
-                        <div className="flex flex-row items-center gap-10">
-                            <div className="flex flex-col gap-5">
-                                <div className="flex items-center gap-3">
-                                    <span className="text-sm md:text-lg font-medium text-[#ABD1B5]">Longest Streak</span>
-                                    <span className="text-[#ABD1B5]/30">·</span>
-                                    <span className="flex gap-1 text-sm md:text-xl font-bold text-[#79B791]"> <span className="text-[#ABD1B5] italic">{analysis.longest_streak}</span>  days</span>
-                                </div>
-                                <div className="flex items-center gap-3">
-                                    <span className="text-sm md:text-lg font-medium text-[#ABD1B5]">Average Messages</span>
-                                    <span className="text-[#ABD1B5]/30">·</span>
-                                    <span className="flex gap-1 text-sm md:text-xl font-bold text-[#79B791]"> <span className="text-[#ABD1B5] italic">{Math.round(analysis.average_messages_per_day)}</span> msgs</span>
-                                </div>
-                                <div className="flex items-center gap-3">
-                                    <span className="text-sm md:text-lg font-medium text-[#ABD1B5]">Most Active Day</span>
-                                    <span className="text-[#ABD1B5]/30">·</span>
-                                    <span className="flex gap-1 text-sm md:text-xl font-bold text-[#79B791]"> <span className="text-[#ABD1B5] italic">{analysis.message_stats.max_messages}</span> msgs</span>
-                                </div>
-                            </div>
-                            <div className="ml-auto ">
-                                <img
-                                    src="/favicon.png"
-                                    alt="img"
-                                    className="w-15 h-15 md:w-28 md:h-28 rounded-2xl md:rounded-xl object-cover md:object-fit shadow-lg"
-                                />
-                            </div>
-                        </div>
+                        {(() => {
+                            const score = analysis.final_score ?? 0;
+                            const scoreColor = score <= 35 ? "#E8665D" : "#79B791";
+                            const scoreBg = score <= 35 ? "rgba(232,102,93,0.12)" : "rgba(121,183,145,0.12)";
+                            const scoreBorder = score <= 35 ? "rgba(232,102,93,0.3)" : "rgba(121,183,145,0.3)";
+                            return (
+                                <>
+                                    <div className="flex flex-row items-center gap-10">
+                                        <div className="flex flex-col gap-5">
+                                            <div className="flex items-center gap-3">
+                                                <span className="text-sm md:text-lg font-medium text-[#ABD1B5]">Longest Streak</span>
+                                                <span className="text-[#ABD1B5]/30">·</span>
+                                                <span className="flex gap-1 text-sm md:text-xl font-bold text-[#79B791]"> <span className="text-[#ABD1B5] italic">{analysis.longest_streak["count"]}</span>  days</span>
+                                            </div>
+                                            <div className="flex items-center gap-3">
+                                                <span className="text-sm md:text-lg font-medium text-[#ABD1B5]">Average Messages</span>
+                                                <span className="text-[#ABD1B5]/30">·</span>
+                                                <span className="flex gap-1 text-sm md:text-xl font-bold text-[#79B791]"> <span className="text-[#ABD1B5] italic">{Math.round(analysis.average_messages_per_day)}</span> msgs</span>
+                                            </div>
+                                            <div className="flex items-center gap-3">
+                                                <span className="text-sm md:text-lg font-medium text-[#ABD1B5]">Most Active Day</span>
+                                                <span className="text-[#ABD1B5]/30">·</span>
+                                                <span className="flex gap-1 text-sm md:text-xl font-bold text-[#79B791]"> <span className="text-[#ABD1B5] italic">{analysis.message_stats.max_messages}</span> msgs</span>
+                                            </div>
+                                        </div>
+                                        <div className="ml-auto relative w-20 h-20 md:w-28 md:h-28">
+                                            <Doughnut
+                                                data={{
+                                                    labels: [],
+                                                    datasets: [{
+                                                        data: [score, 100 - Math.min(score, 100)],
+                                                        backgroundColor: [scoreColor, "#3a1a1e"],
+                                                        borderWidth: 0,
+                                                        cutout: "75%",
+                                                    } as any],
+                                                }}
+                                                options={{
+                                                    responsive: true,
+                                                    maintainAspectRatio: true,
+                                                    plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                                                    animation: false,
+                                                }}
+                                            />
+                                            <span className="absolute inset-0 flex flex-col items-center justify-center">
+                                                <span className="text-lg md:text-2xl font-extrabold" style={{ color: scoreColor }}>{Math.round(score)}</span>
+                                                <span className="text-[#ABD1B5] text-[8px] md:text-[10px]">/ 100</span>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    {/* Relationship Status */}
+                                    <div className="flex flex-col items-center gap-1.5 pt-7 mt-7 border-t border-[#EDF4ED]/15">
+
+                                        <div
+                                            className="px-6 py-2.5 rounded-2xl text-base md:text-lg font-bold tracking-wide border-2"
+                                            style={{
+                                                color: scoreColor,
+                                                backgroundColor: scoreBg,
+                                                borderColor: scoreBorder,
+                                                boxShadow: `0 0 16px ${scoreBg}, 0 0 32px ${score <= 35 ? "rgba(232,102,93,0.06)" : "rgba(121,183,145,0.06)"}`,
+                                            }}
+                                        >
+                                            {analysis.relationship_status}
+                                        </div>
+                                    </div>
+                                </>
+                            );
+                        })()}
 
                     </div>
                     <div className="flex gap-2 justify-around mt-18">
