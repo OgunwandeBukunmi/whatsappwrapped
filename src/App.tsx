@@ -47,7 +47,7 @@ const FileUploader: React.FC<Props> = ({ onFileSelect }) => {
           if (prev >= 95) return prev; // stop near end
           return prev + Math.random() * 5;
         });
-      }, 300);
+      }, 500);
 
       return () => clearInterval(interval);
     }, [loading]);
