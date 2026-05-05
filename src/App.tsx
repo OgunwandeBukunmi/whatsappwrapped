@@ -37,7 +37,7 @@ const FileUploader: React.FC<Props> = ({ onFileSelect }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [analysis, setAnalysis] = useState<any>(null);
   const [progress, setProgress] = useState<number>(0)
-
+  const [tutorial, setTutorial] = useState<Boolean>(false)
   function useProgress(loading: boolean) {
 
     useEffect(() => {
@@ -116,7 +116,7 @@ const FileUploader: React.FC<Props> = ({ onFileSelect }) => {
   }
 
   return currentStatus === "upload" ? (
-    <div className="min-h-screen flex flex-col justify-between">
+    <div className=" relative min-h-screen flex flex-col justify-between">
       <div className="flex flex-col items-center justify-center grow bg-[#301014] p-6 text-[#EDF4ED]">
         <div className="w-full max-w-lg bg-[#51291E] shadow-xl rounded-2xl p-6">
 
@@ -183,10 +183,93 @@ const FileUploader: React.FC<Props> = ({ onFileSelect }) => {
             {loading ? "Loading..." : "Upload & Analyze"}
           </button>
         </div>
-        <div className="mt-5 p-4 bg-[#301014]  flex justify-between items-center">
+        <div className="mt-5 p-4 bg-[#301014]  flex flex-col  justify-between items-center">
           <p>Have any issues? <a target="_blank" href="https://wa.me/+2349161276874" className="underline text-heading">Chat me</a></p>
+          <button onClick={() => setTutorial(true)} className="text inline-block">How to get the file?<span className="underline text-heading"> tutorial</span></button>
         </div>
       </div>
+      {
+        tutorial && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            {/* Backdrop */}
+            <div
+              className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+              onClick={() => setTutorial(false)}
+            ></div>
+
+            {/* Modal */}
+            <div
+              className="relative w-full max-w-lg max-h-[85vh] overflow-y-auto bg-[#51291E] border border-[#79B791]/20 rounded-2xl shadow-2xl shadow-black/40 text-[#EDF4ED]"
+              style={{ animation: "modalIn 0.3s ease-out" }}
+            >
+              {/* Header */}
+              <div className="sticky top-0 z-10 flex items-center justify-between px-6 py-4 bg-[#51291E] border-b border-[#79B791]/15 rounded-t-2xl">
+                <h2 className="text-lg font-bold text-[#79B791] tracking-wide">
+                  📂 How to Export Your Chat
+                </h2>
+                <button
+                  onClick={() => setTutorial(false)}
+                  className="w-8 h-8 flex items-center justify-center rounded-full bg-[#301014] text-[#ABD1B5] hover:text-white hover:bg-red-500/60 transition-all duration-200 text-sm font-bold cursor-pointer"
+                >
+                  ✕
+                </button>
+              </div>
+
+              {/* Content */}
+              <div className="px-6 py-5 space-y-6">
+                {/* iPhone Section */}
+                <div className="bg-[#301014]/60 border border-[#79B791]/10 rounded-xl p-5">
+                  <h3 className="text-base font-semibold text-[#ABD1B5] mb-3 flex items-center gap-2">
+                    <span className="text-xl">🍎</span> For iPhone Users
+                  </h3>
+                  <ol className="list-decimal list-inside space-y-2 text-sm text-[#EDF4ED]/85 leading-relaxed">
+                    <li>Open WhatsApp</li>
+                    <li>Go to the chat you want to analyze</li>
+                    <li>Tap on the contact name at the top</li>
+                    <li>Tap on <span className="text-[#79B791] font-medium">"Export Chat"</span></li>
+                    <li>Select <span className="text-[#79B791] font-medium">"Without Media"</span></li>
+                    <li>Select <span className="text-[#79B791] font-medium">"Save File"</span></li>
+                    <li>Select a location to save the file</li>
+                    <li>Click <span className="text-[#79B791] font-medium">"Save"</span></li>
+                    <li>Go to your settings and extract the zip file</li>
+                    <li>Upload the <code className="bg-[#79B791]/15 text-[#79B791] px-1.5 py-0.5 rounded text-xs font-mono">.txt</code> file to this website</li>
+                  </ol>
+                </div>
+
+                {/* Android Section */}
+                <div className="bg-[#301014]/60 border border-[#79B791]/10 rounded-xl p-5">
+                  <h3 className="text-base font-semibold text-[#ABD1B5] mb-3 flex items-center gap-2">
+                    <span className="text-xl">🤖</span> For Android Users
+                  </h3>
+                  <ol className="list-decimal list-inside space-y-2 text-sm text-[#EDF4ED]/85 leading-relaxed">
+                    <li>Open WhatsApp</li>
+                    <li>Go to the chat you want to analyze</li>
+                    <li>Tap on the three dots at the top right <span className="text-[#79B791] font-medium">(⋮)</span></li>
+                    <li>Tap on <span className="text-[#79B791] font-medium">"More"</span></li>
+                    <li>Select <span className="text-[#79B791] font-medium">"Export Chat"</span></li>
+                    <li>Select <span className="text-[#79B791] font-medium">"Without Media"</span></li>
+                    <li>Select <span className="text-[#79B791] font-medium">"Save File"</span></li>
+                    <li>Select a location to save the file</li>
+                    <li>Click <span className="text-[#79B791] font-medium">"Save"</span></li>
+                    <li>Go to your File Manager and extract the zip file</li>
+                    <li>Upload the <code className="bg-[#79B791]/15 text-[#79B791] px-1.5 py-0.5 rounded text-xs font-mono">.txt</code> file to this website</li>
+                  </ol>
+                </div>
+              </div>
+
+              {/* Footer */}
+              <div className="px-6 py-4 border-t border-[#79B791]/10">
+                <button
+                  onClick={() => setTutorial(false)}
+                  className="w-full py-2.5 bg-[#79B791] text-[#301014] font-semibold rounded-lg hover:bg-[#79B791]/85 transition-colors duration-200 cursor-pointer"
+                >
+                  Got it!
+                </button>
+              </div>
+            </div>
+          </div>
+        )
+      }
       <Footer />
     </div>
   ) : currentStatus == "loading" ? (
@@ -251,6 +334,7 @@ const FileUploader: React.FC<Props> = ({ onFileSelect }) => {
           </p>
         </div>
       </div>
+
     </div>
 
   ) : (
