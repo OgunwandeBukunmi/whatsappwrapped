@@ -22,7 +22,7 @@ export default function Modal({ setModal, analysis }: { setModal: (modal: Boolea
             });
 
             const link = document.createElement("a");
-            link.download = "card.png";
+            link.download = "summary.png";
             link.href = dataUrl;
             link.click();
         } catch (err) {
