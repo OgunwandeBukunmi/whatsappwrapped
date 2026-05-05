@@ -280,7 +280,7 @@ const FileUploader: React.FC<Props> = ({ onFileSelect }) => {
         {/* GIF Container */}
         <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-3xl overflow-hidden shadow-inner border-2 border-[#79B791]/10 bg-[#301014]/50">
           <img
-            src="https://tenor.com/view/love-romance-romantic-love-you-couples-gif-27417192.gif"
+            src="/tenor.gif"
             alt="Loading animation"
             className="w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity"
           />
